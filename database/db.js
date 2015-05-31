@@ -1,5 +1,5 @@
 var sqlite3 = require('sqlite3').verbose();
-var dbdir = $OPENSHIFTDATADIR || 'database/';
+var dbdir = process.env.OPENSHIFT_DATA_DIR || 'database/';
 var db = new sqlite3.Database(dbdir + 'inventory.db');
 
 db.run("CREATE TABLE IF NOT EXISTS productInventory (id INTEGER PRIMARY KEY, price REAL, picture INT, name TEXT, stock INT, brand text)");
