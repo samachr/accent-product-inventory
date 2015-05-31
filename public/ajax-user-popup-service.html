@@ -1,0 +1,32 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="./bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="ajax-user-popup-service" attributes="users">
+  <template>
+
+    <style>
+    :host {
+      display: none;
+    }
+    </style>
+    <core-ajax id="ajax"
+      auto
+      url="/users"
+      on-core-response="{{tabsLoaded}}"
+      handleAs="json">
+    </core-ajax>
+  </template>
+  <script>
+  Polymer('ajax-user-popup-service', {
+    created: function() {
+      this.users = [];
+    },
+    tabsLoaded: function() {
+      // Make a copy of the loaded data
+      this.users = this.$.ajax.response.slice(0);
+      //console.log(this.users);
+      this.fire('ajax-data-received');
+    }
+  });
+  </script>
+</polymer-element>

@@ -1,0 +1,41 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="./bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="ajax-tabs-service.html">
+
+<polymer-element name="ajax-tabs" extends="paper-tabs">
+  <template>
+    <style>
+    :host {
+      margin: 0;
+      /*height:100%;*/
+    }
+    paper-tab {
+        height:100%;
+    }
+    </style>
+    <ajax-tabs-service id="service" tabs="{{tabs}}" on-ajax-data-received="{{handleServerData}}"></ajax-tabs-service>
+
+    <template repeat="{{tab in tabs}}">
+      <paper-tab name="{{tab.id}}">{{tab.brand}}</paper-tab>
+    </template>
+
+    <shadow>
+    </shadow>
+
+
+  </template>
+
+  <script>
+  Polymer({
+    parseDeclaration: function(elementElement) {
+      var template = this.fetchTemplate(elementElement);
+      if (template) {
+        var root = this.lightFromTemplate(template);
+      }
+    },
+    handleServerData: function(event, detail, sender) {
+      // this.$.toast.show();
+    }
+  });
+  </script>
+</polymer-element>

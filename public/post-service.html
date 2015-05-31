@@ -1,0 +1,84 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="./bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="./bower_components/paper-toast/paper-toast.html">
+
+<polymer-element name="post-service" attributes="posts">
+  <template>
+
+    <style>
+    :host {
+      display: none;
+    }
+    </style>
+    <core-ajax id="ajax"
+      auto
+      url="/inventory-item"
+      on-core-response="{{postsLoaded}}"
+      handleAs="json">
+    </core-ajax>
+    <core-ajax id="ajaxpost"
+      method="post"
+      contentType="application/json"
+      on-core-response="{{update}}"
+      url="/inventory-item">
+    </core-ajax>
+  </template>
+  <script>
+  Polymer('post-service', {
+    created: function() {
+      this.posts = [];
+    },
+    postsLoaded: function() {
+      // Make a copy of the loaded data
+      this.posts = this.$.ajax.response.slice(0);
+    },
+    update: function() {
+      //console.log('updated');
+      this.fire('ajax-data-received');
+      console.log('ajax data received: ', this.$.ajaxpost.response)
+      //this.$.ajax.go();
+    },
+    insertInventoryItem: function(id, isFavorite) {
+      var ajax = this.$.ajaxpost;
+      ajax.url="/inventory-item";
+      ajax.method="post";
+      var newPost = this.posts[0];
+      newPost.barcode=12343;
+      newPost.description="A New Item";
+      newPost.favorite=true;
+      ajax.body = JSON.stringify(newPost);
+      ajax.go();
+      //console.log('Favorite changed: ' + id + ", now: " + isFavorite);
+    },
+    saveTransaction: function(userid, count, price) {
+      var ajax = this.$.ajaxpost;
+      ajax.url="/transactions";
+      ajax.method="post";
+      var newTransaction = {};
+      newTransaction.userid = userid;
+      newTransaction.count = count;
+      newTransaction.price = price;
+      ajax.body = JSON.stringify(newTransaction);
+      ajax.go();
+      //console.log('Favorite changed: ' + id + ", now: " + isFavorite);
+    },
+    updateInventoryItem: function(post) {
+      var ajax = this.$.ajaxpost;
+      ajax.url="/inventory-item/" + post.id;
+      ajax.method="put";
+      ajax.body = JSON.stringify(post);
+      ajax.go();
+      //console.log('Favorite changed: ' + id + ", now: " + isFavorite);
+    },
+    removeInventoryItem: function(id, isFavorite) {
+      // no service backend, just log the change
+      var ajax = this.$.ajaxpost;
+      //delete
+      ajax.url="/inventory-item/"+id;
+      ajax.method="delete";
+      ajax.go();
+      //console.log('Favorite changed: ' + id + ", now: " + isFavorite);
+    }
+  });
+  </script>
+</polymer-element>
