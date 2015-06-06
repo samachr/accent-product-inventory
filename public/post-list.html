@@ -10,12 +10,12 @@
     :host {
       display: inline-block;
       width: 100%;
-      margin-left: 30px;
+      margin-top: 10px;
     }
     post-card {
-      margin: 5px;
-      width: 221px;
+      width: 220px;
       height: 120px;
+      margin: 7px 5px 5px 5px;
     }
     #totals {
       text-align:right;
@@ -25,35 +25,26 @@
     <post-service id="service" posts="{{posts}}" on-ajax-data-received="{{handleServerData}}"></post-service>
     <paper-toast id="toast" text="Sold"></paper-toast>
 
-    <div horizontal layout center wrap>
-      <paper-action-dialog id="confirmSale" backdrop autoCloseDisabled>
-        <h3>Current Transaction:</h3>
-        <p id="productInfo"></p>
-        <p id="totals"></p>
+    <paper-action-dialog id="confirmSale" backdrop autoCloseDisabled>
+      <h3>Current Transaction:</h3>
+      <p id="productInfo"></p>
+      <p id="totals"></p>
 
-        <paper-button raised affirmative style="background:#4285f4;color:white;" on-tap="{{confirmTransaction}}">Confirm Sale</paper-button>
-        <paper-button raised affirmative on-tap="{{addAnotherProduct}}">Add More Product</paper-button>
-        <paper-button raised dismissive on-tap="{{refreshPage}}">Cancel Transaction</paper-button>
-      </paper-action-dialog>
-      <!-- <post-card id="newCard"
-        favorite="true"
-        hidden?="false">
-        <paper-fab icon="create" class="blue" title="create" on-tap="{{handleNewCard}}"></paper-fab>
-        <h2></h2>
-        <p>Add A new Product</p>
-      </post-card> -->
-      <template repeat="{{post in posts}}">
-        <post-card
-          on-card-tap="{{handleCard}}"
-          hidden?="{{show != post.brand && show != 'all'}}">
-          <img src="images/{{post.picture}}" width="70" height="70">
-          <h2>${{post.price}}</h2>
-          <h4>{{post.stock}}</h4>
-          <h6>{{post.name}}</h6>
-        </post-card>
-      </template>
+      <paper-button raised affirmative style="background:#4285f4;color:white;" on-tap="{{confirmTransaction}}">Confirm Sale</paper-button>
+      <paper-button raised affirmative on-tap="{{addAnotherProduct}}">Add More Product</paper-button>
+      <paper-button raised dismissive on-tap="{{refreshPage}}">Cancel Transaction</paper-button>
+    </paper-action-dialog>
 
-    </div>
+    <template repeat="{{post in posts}}">
+      <post-card
+        on-card-tap="{{handleCard}}"
+        hidden?="{{show != post.brand && show != 'all'}}">
+        <img src="images/{{post.picture}}" width="70" height="70">
+        <h2>${{post.price}}</h2>
+        <h4>{{post.stock}}</h4>
+        <h6>{{post.name}}</h6>
+      </post-card>
+    </template>
   </template>
 
   <script>
