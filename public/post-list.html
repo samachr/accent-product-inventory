@@ -72,8 +72,11 @@
         this.$.totals.innerHTML = "<hr>$" + this.totalPrice + " for " + this.count + " items <br>";
 
         this.$.confirmSale.async(function() {
-          for (var i = 0; i < 3; i++) this.resizeHandler();
           this.toggle();
+          var confirmSale = this;
+          setTimeout(function() {
+            for (var i = 0; i < 3; i++) confirmSale.resizeHandler();
+          },200);
         });
       }
     },

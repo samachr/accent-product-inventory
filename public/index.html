@@ -860,40 +860,101 @@ object like this: `{v: 'top', h: 'right'}`.
 
 
   <style>
-  html,body {
-    height: 100%;
-    margin: 0;
-    background-color: #E5E5E5;
-    font-family: 'RobotoDraft', sans-serif;
-  }
-  core-header-panel {
-    height: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  core-toolbar {
-    background: #404040;
-    color: white;
-    padding: 0;
-  }
-  #tabs {
-    width: 100%;
-    margin: 0;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    text-transform: uppercase;
-  }
-  .container {
-    width: 100%;
-    margin: 10px auto;
-  }
-  @media (min-width: 481px) {
-    #tabs {
-      /*width: 420px;*/
+    html,
+    body {
+      height: 100%;
+      background-color: #E5E5E5;
+      font-family: 'RobotoDraft', sans-serif;
+      margin: 0;
     }
-  }
+
+    core-header-panel {
+      height: 100%;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    core-toolbar {
+      background: #404040;
+      color: white;
+      padding: 0;
+    }
+
+    #tabs {
+      width: 100%;
+      margin: 0;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      text-transform: uppercase;
+    }
+
+    #container {
+      font-size: 0;
+      margin: 0 auto;
+      width: 1150px;
+    }
+
+    @media screen and (max-width: 480px) {
+      #container {
+        width: 230px;
+      }
+    }
+
+    @media screen and (min-width: 480px) and (max-width: 710px) {
+      #container {
+        width: 460px;
+      }
+    }
+
+    @media screen and (min-width: 710px) and (max-width: 940px) {
+      #container {
+        width: 690px;
+      }
+    }
+
+    @media screen and (min-width: 940px) and (max-width: 1170px) {
+      #container {
+        width: 920px;
+      }
+    }
+
+    @media screen and (min-width: 1170px) and (max-width: 1400px) {
+      #container {
+        width: 1150px;
+      }
+    }
+
+    @media screen and (min-width: 1400px) and (max-width: 1630px) {
+      #container {
+        width: 1380px;
+      }
+    }
+
+    @media screen and (min-width: 1630px) and (max-width: 1850px) {
+      #container {
+        width: 1610px;
+      }
+    }
+
+    @media screen and (min-width: 1850px) {
+      #container {
+        width: 1840px;
+      }
+    }
+
+    .container {
+      align-items: left;
+      text-align: center;
+      /*margin: 10px auto;*/
+    }
+
+    @media (min-width: 481px) {
+      #tabs {
+        /*width: 420px;*/
+      }
+    }
   </style>
 
 <meta charset="UTF-8"></head>
@@ -5526,48 +5587,43 @@ core-icon {
     :host {
       display: inline-block;
       width: 100%;
-      margin-left: 30px;
+      margin-top: 10px;
     }
     post-card {
-      margin: 5px;
-      width: 221px;
+      width: 220px;
       height: 120px;
+      margin: 7px 5px 5px 5px;
     }
     #totals {
       text-align:right;
+    }
+    paper-dialog {
+      width: 576px;
+      height: 300px;
     }
     </style>
 
     <post-service id="service" posts="{{posts}}" on-ajax-data-received="{{handleServerData}}"></post-service>
     <paper-toast id="toast" text="Sold"></paper-toast>
 
-    <div horizontal="" layout="" center="" wrap="">
-      <paper-action-dialog id="confirmSale" backdrop="" autoclosedisabled="">
-        <h3>Current Transaction:</h3>
-        <p id="productInfo"></p>
-        <p id="totals"></p>
 
-        <paper-button raised="" affirmative="" style="background:#4285f4;color:white;" on-tap="{{confirmTransaction}}">Confirm Sale</paper-button>
-        <paper-button raised="" affirmative="" on-tap="{{addAnotherProduct}}">Add More Product</paper-button>
-        <paper-button raised="" dismissive="" on-tap="{{refreshPage}}">Cancel Transaction</paper-button>
-      </paper-action-dialog>
-      <!-- <post-card id="newCard"
-        favorite="true"
-        hidden?="false">
-        <paper-fab icon="create" class="blue" title="create" on-tap="{{handleNewCard}}"></paper-fab>
-        <h2></h2>
-        <p>Add A new Product</p>
-      </post-card> -->
-      <template repeat="{{post in posts}}">
-        <post-card on-card-tap="{{handleCard}}" hidden?="{{show != post.brand &amp;&amp; show != 'all'}}">
-          <img src="images/{{post.picture}}" width="70" height="70">
-          <h2>${{post.price}}</h2>
-          <h4>{{post.stock}}</h4>
-          <h6>{{post.name}}</h6>
-        </post-card>
-      </template>
+    <paper-action-dialog id="confirmSale" backdrop="" autoclosedisabled="">
+      <h3>Current Transaction:</h3>
+      <p id="productInfo"></p>
+      <p id="totals"></p>
 
-    </div>
+      <paper-button raised="" affirmative="" style="background:#4285f4;color:white;" on-tap="{{confirmTransaction}}">Confirm Sale</paper-button>
+      <paper-button raised="" affirmative="" on-tap="{{addAnotherProduct}}">Add More Product</paper-button>
+      <paper-button raised="" dismissive="" on-tap="{{refreshPage}}">Cancel Transaction</paper-button>
+    </paper-action-dialog>
+    <template repeat="{{post in posts}}">
+      <post-card on-card-tap="{{handleCard}}" hidden?="{{show != post.brand &amp;&amp; show != 'all'}}">
+        <img src="images/{{post.picture}}" width="70" height="70">
+        <h2>${{post.price}}</h2>
+        <h4>{{post.stock}}</h4>
+        <h6>{{post.name}}</h6>
+      </post-card>
+    </template>
   </template>
 
   <script>
@@ -5587,11 +5643,16 @@ core-icon {
         post.stock -= 1;
         this.count += 1;
         this.totalPrice += post.price;
-        // this.$.service.removeInventoryItem(post.id);
-        //console.log(this.userid);
         this.$.productInfo.innerHTML += "$" + post.price + " " + post.name + "<br>";
         this.$.totals.innerHTML = "<hr>$" + this.totalPrice + " for " + this.count + " items <br>";
-        this.$.confirmSale.toggle();
+
+        this.$.confirmSale.async(function() {
+          this.toggle();
+          var confirmSale = this;
+          setTimeout(function() {
+            for (var i = 0; i < 3; i++) confirmSale.resizeHandler();
+          },200);
+        });
       }
     },
     handleNewCard: function(event, detail, sender) {
@@ -6855,7 +6916,7 @@ polyfill-next-selector { content: '#tabsContent > *:not(#selectionBar)'; }
 
     <!-- <button id="btnDialog" onclick="toggleDialog()">Choose User</button> -->
 
-    <div class="container" vertical="" layout="" center="">
+    <div id="container">
       <post-list on-card-tap="toggleDialog" show="all"></post-list>
     </div>
 
@@ -6867,19 +6928,18 @@ polyfill-next-selector { content: '#tabsContent > *:not(#selectionBar)'; }
 
 
 <script>
-var tabs = document.querySelector('ajax-tabs');
-var list = document.querySelector('post-list');
+  var tabs = document.querySelector('ajax-tabs');
+  var list = document.querySelector('post-list');
 
-tabs.addEventListener('core-select', function() {
-  //list.show = tabs.selected;
-  //console.log(list.show + " tab is selected");
-});
+  tabs.addEventListener('core-select', function() {
+    list.show = tabs.selected;
+    //console.log(list.show + " tab is selected");
+  });
 
-function setUser(id) {
-  list.userid = id;
-  //console.log(list.userid);
-}
-
+  function setUser(id) {
+    list.userid = id;
+    //console.log(list.userid);
+  }
 </script>
 
 
