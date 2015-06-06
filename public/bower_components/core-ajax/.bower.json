@@ -17,6 +17,5 @@
   },
   "_source": "git://github.com/polymer/core-ajax.git",
   "_target": "~0.5.6",
-  "_originalSource": "polymer/core-ajax",
-  "_direct": true
+  "_originalSource": "polymer/core-ajax"
 }
