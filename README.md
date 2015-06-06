@@ -1,3 +1,7 @@
+Accent Product inventory
+====
+A product inventory management program in nodejs, angularjs, sqlite3, and polymer. A production used experiment with modern web technologies
+
 Useful Scripts
 ====
   1. backup database:
