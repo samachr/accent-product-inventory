@@ -11,7 +11,7 @@
     <ajax-user-popup-service id="service" users="{{users}}" on-ajax-data-received="{{handleServerData}}"></ajax-user-popup-service>
 
     <template repeat="{{user in users}}">
-      <paper-button raised name="{{user.id}}" affirmative autofocus onclick="setUser({{user.id}})">{{user.name}}</paper-button>
+      <paper-button raised name="{{user.id}}" affirmative onclick="setUser({{user.id}})">{{user.name}}</paper-button>
     </template>
 
     <shadow>
