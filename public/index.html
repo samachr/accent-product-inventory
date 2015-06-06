@@ -896,7 +896,7 @@ object like this: `{v: 'top', h: 'right'}`.
   }
   </style>
 
-</head>
+<meta charset="UTF-8"></head>
 
 <body unresolved=""><div hidden="">
 
@@ -6871,21 +6871,14 @@ var tabs = document.querySelector('ajax-tabs');
 var list = document.querySelector('post-list');
 
 tabs.addEventListener('core-select', function() {
-  list.show = tabs.selected;
-  console.log(list.show + " tab is selected");
+  //list.show = tabs.selected;
+  //console.log(list.show + " tab is selected");
 });
 
 function setUser(id) {
   list.userid = id;
-  console.log(list.userid);
+  //console.log(list.userid);
 }
-
-// function toggleDialog(event, detail, sender) {
-//   console.log("main page saw you click");
-//
-//   document.getElementById('user-choice').toggle();
-//   console.log("showing dialog for " + detail);
-// }
 
 </script>
 
