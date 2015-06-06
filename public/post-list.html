@@ -20,10 +20,15 @@
     #totals {
       text-align:right;
     }
+    paper-dialog {
+      width: 576px;
+      height: 300px;
+    }
     </style>
 
     <post-service id="service" posts="{{posts}}" on-ajax-data-received="{{handleServerData}}"></post-service>
     <paper-toast id="toast" text="Sold"></paper-toast>
+
 
     <paper-action-dialog id="confirmSale" backdrop autoCloseDisabled>
       <h3>Current Transaction:</h3>
@@ -34,7 +39,6 @@
       <paper-button raised affirmative on-tap="{{addAnotherProduct}}">Add More Product</paper-button>
       <paper-button raised dismissive on-tap="{{refreshPage}}">Cancel Transaction</paper-button>
     </paper-action-dialog>
-
     <template repeat="{{post in posts}}">
       <post-card
         on-card-tap="{{handleCard}}"
@@ -64,11 +68,13 @@
         post.stock -= 1;
         this.count += 1;
         this.totalPrice += post.price;
-        // this.$.service.removeInventoryItem(post.id);
-        //console.log(this.userid);
         this.$.productInfo.innerHTML += "$" + post.price + " " + post.name + "<br>";
         this.$.totals.innerHTML = "<hr>$" + this.totalPrice + " for " + this.count + " items <br>";
-        this.$.confirmSale.toggle();
+
+        this.$.confirmSale.async(function() {
+          for (var i = 0; i < 3; i++) this.resizeHandler();
+          this.toggle();
+        });
       }
     },
     handleNewCard: function(event, detail, sender) {
