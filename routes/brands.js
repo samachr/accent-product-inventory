@@ -5,19 +5,19 @@ var db = require('../database/db.js');
 
 /* GET /brands listing. */
 router.get('/', function(req, res, next) {
-  console.log('brand listing requested');
+  console.log(req.connection.remoteAddress, ":", 'brands');
   db.all("SELECT id, brand FROM brands", function(err, rows) {
-    if (err) console.log(err);
+    if (err) console.log(req.connection.remoteAddress, ":", err);
     res.json(rows);
   });
 });
 
 /* POST /brands */
 router.post('/', function(req, res, next) {
-  console.log("brand received");
+  console.log(req.connection.remoteAddress, ":", "brand received");
   db.run("INSERT INTO brands (brand) VALUES (?)", req.body.brand, function(err) {
     if(err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
       res.status(200).end();
@@ -27,9 +27,9 @@ router.post('/', function(req, res, next) {
 
 /* GET /brands/id */
 router.get('/:id', function(req, res, next) {
-  console.log("brand with id " + req.params.id + " requested");
+  console.log(req.connection.remoteAddress, ":", "brand with id " + req.params.id + " requested");
   db.all("SELECT id, brand FROM brands WHERE id=(?)", req.params.id, function(err, rows) {
-    if (err) console.log(err);
+    if (err) console.log(req.connection.remoteAddress, ":", err);
     res.json(rows);
   });
 });
@@ -38,10 +38,10 @@ router.get('/:id', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   db.run("UPDATE brands SET brand=(?) WHERE id=(?)",[req.body.id, req.body.brand], function(err) {
     if (err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
-      console.log("brand with id " + req.body.id + " updated");
+      console.log(req.connection.remoteAddress, ":", "brand with id " + req.body.id + " updated");
       res.status(200).end();
     }
   });
@@ -51,10 +51,10 @@ router.put('/:id', function(req, res, next) {
 router.delete('/:id', function(req, res, next) {
   db.run("DELETE from brands where id=(?)", req.params.id, function(err) {
     if (err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
-      console.log("brand with id " + req.params.id + " deleted");
+      console.log(req.connection.remoteAddress, ":", "brand with id " + req.params.id + " deleted");
       res.status(200).end();
     }
   });

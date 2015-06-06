@@ -5,19 +5,19 @@ var db = require('../database/db.js')
 //db.close();
 /* GET /transactions listing. */
 router.get('/', function(req, res, next) {
-  console.log('transaction listing requested');
+  console.log(req.connection.remoteAddress, ":", 'transactions');
   db.all("SELECT id, userid, count, price, timestamp FROM transactions", function(err, rows) {
-    if (err) console.log(err);
+    if (err) console.log(req.connection.remoteAddress, ":", err);
     res.json(rows);
   });
 });
 
 /* POST /transactions */
 router.post('/', function(req, res, next) {
-  console.log("transaction received");
+  console.log(req.connection.remoteAddress, ":", "transaction received");
   db.run("INSERT INTO transactions (userid, count, price) VALUES (?, ?, ?)", [req.body.userid, req.body.count, req.body.price], function(err) {
     if(err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
       res.status(200).end();
@@ -27,9 +27,9 @@ router.post('/', function(req, res, next) {
 
 /* GET /transactions/id */
 router.get('/:id', function(req, res, next) {
-  console.log("transaction with id " + req.params.id + " requested");
+  console.log(req.connection.remoteAddress, ":", "transaction with id " + req.params.id + " requested");
   db.all("SELECT id, userid, count, price, timestamp FROM transactions WHERE id=(?)", req.params.id, function(err, rows) {
-    if (err) console.log(err);
+    if (err) console.log(req.connection.remoteAddress, ":", err);
     res.json(rows);
   });
 });
@@ -38,10 +38,10 @@ router.get('/:id', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   db.run("UPDATE transactions SET userid=?, count=?, price=? WHERE id=?",[req.body.userid, req.body.count, req.body.price], function(err) {
     if (err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
-      console.log("transaction with id " + req.body.id + " updated");
+      console.log(req.connection.remoteAddress, ":", "transaction with id " + req.body.id + " updated");
       res.status(200).end();
     }
   });
@@ -51,10 +51,10 @@ router.put('/:id', function(req, res, next) {
 router.delete('/:id', function(req, res, next) {
   db.run("DELETE from transactions where id=(?)", req.params.id, function(err) {
     if (err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
-      console.log("transaction with id " + req.params.id + " deleted");
+      console.log(req.connection.remoteAddress, ":", "transaction with id " + req.params.id + " deleted");
       res.status(200).end();
     }
   });

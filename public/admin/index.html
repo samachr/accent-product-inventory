@@ -14,16 +14,6 @@
 <body>
 
   <div>
-    <!-- <p>Select a tab by setting active binding to true:</p>
-    <p>
-      <button class="btn btn-default btn-sm" ng-click="tabs[0].active = true">Select second tab</button>
-      <button class="btn btn-default btn-sm" ng-click="tabs[1].active = true">Select third tab</button>
-    </p>
-    <p>
-      <button class="btn btn-default btn-sm" ng-click="tabs[1].disabled = ! tabs[1].disabled">Enable / Disable third tab</button>
-    </p>
-    <hr /> -->
-
     <tabset>
       <tab ng-controller="userCtrl" select="activateTab('users')" active="tabusers" heading="Users" >
         <table class="table">
@@ -135,7 +125,7 @@
           <tr>
             <td colspan="2">
               <form id="uploadForm" enctype="multipart/form-data" action="/images" method="post">
-                <input class="form-control" type="file" name="userPhoto" id="userPhoto"/>
+                <input required class="form-control text-center" type="file" name="userPhoto" id="userPhoto"/>
                 <input class="btn btn-default form-control" type="submit" value="Upload Image" name="submit">
               </form>
             </td>
@@ -143,24 +133,9 @@
           <tr class="containter" ng-repeat="image in images">
             <td><span>{{image}}</span></td>
             <td><span><img src="/images/{{image}}" width="70" height="70" /></span></td>
-            <!-- <td><button class="btn btn-default" ng-click="updateImage(image)">Update</button></td> -->
           </tr>
         </table>
       </tab>
-
-      <!-- <tab ng-controller="picturesCtrl" heading="Pictures">
-        <input type="file" id="file" name="file" ng-model="files"/>
-        <button ng-click="add()">Add</button>
-      </tab> -->
-      <!-- <tab ng-controller="TabsCtrl" ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
-        {{tab.content}}
-      </tab>
-      <tab select="alertMe()">
-        <tab-heading>
-          <i class="glyphicon glyphicon-bell"></i> Alert!
-        </tab-heading>
-        I've got an HTML heading, and a select callback. Pretty cool!
-      </tab> -->
     </tabset>
   </div>
 </body>

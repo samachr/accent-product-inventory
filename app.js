@@ -8,12 +8,20 @@ var bodyParser = require('body-parser');
 // var routes = require('./routes/index');
 // var todos = require('./routes/todos');
 // var about = require('./routes/about');
-var inventoryItem = require('./routes/inventory-item');
-var brands = require('./routes/brands');
-var transactions = require('./routes/transactions');
-var users = require('./routes/users');
+
 
 var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/inventory-item', require('./routes/inventory-item'));
+app.use('/brands', require('./routes/brands'));
+app.use('/transactions', require('./routes/transactions'));
+app.use('/users', require('./routes/users'));
 
 //image file uploads
 var db = require('./database/db.js')
@@ -22,17 +30,15 @@ var multer = require('multer');
 app.use(multer({
   dest: './public/images/',
   rename: function(fieldname, filename, req, res) {
-    var newName = filename; // + filename.substr(filename.lastIndexOf('.'));
+    var newName = filename;
     return newName;
   },
   onFileUploadStart: function(file) {
     console.log(file.originalname + ' is starting ...')
   },
   onFileUploadComplete: function(file) {
-    // console.log(file);
     console.log(file.fieldname + ' uploaded to  ' + file.path);
     db.run("INSERT INTO images (filename) VALUES (?)", file.name);
-    // console.log("put", file.name, "into the database");
     done = true;
   }
 }));
@@ -56,7 +62,7 @@ app.post('/images', function(req, res) {
 });
 
 app.get('/images', function(req, res) {
-  console.log('images listing requested');
+  console.log(req.connection.remoteAddress, ': images listing requested');
   db.all("SELECT filename FROM images", function(err, rows) {
     if (err) console.log(err);
     res.json(rows);
@@ -65,32 +71,6 @@ app.get('/images', function(req, res) {
 
 //end image file uploads
 
-
-
-var db = require('./database/db.js');
-
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-//app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-// app.use(cookieParser());
-
-
-//routes
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/inventory-item', inventoryItem);
-app.use('/brands', brands);
-app.use('/transactions', transactions);
-app.use('/users', users);
-
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -98,28 +78,8 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  res.status(err.status || 500).send("<h3>Sorry, there has been an error </h3>" + err.message);
 });
 
 

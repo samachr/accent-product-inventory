@@ -5,20 +5,20 @@ var db = require('../database/db.js');
 
 /* GET /users listing. */
 router.get('/', function(req, res, next) {
-  console.log('user listing requested');
+  console.log(req.connection.remoteAddress, ":", 'users');
   db.all("SELECT id, name FROM users", function(err, rows) {
-    if (err) console.log(err);
+    if (err) console.log(req.connection.remoteAddress, ":", err);
     res.json(rows);
   });
 });
 
 /* POST /users */
 router.post('/', function(req, res, next) {
-  console.log("user received");
+  console.log(req.connection.remoteAddress, ":", "user received");
   if(req.body.id) {
     db.run("INSERT INTO users (id, name) VALUES (?, ?)", [req.body.id, req.body.name], function(err) {
       if(err) {
-        console.log(err);
+        console.log(req.connection.remoteAddress, ":", err);
         res.status(500).end();
       } else {
         res.status(200).end();
@@ -27,7 +27,7 @@ router.post('/', function(req, res, next) {
   } else {
     db.run("INSERT INTO users (name) VALUES (?)", req.body.name, function(err) {
       if(err) {
-        console.log(err);
+        console.log(req.connection.remoteAddress, ":", err);
         res.status(500).end();
       } else {
         res.status(200).end();
@@ -39,9 +39,9 @@ router.post('/', function(req, res, next) {
 
 /* GET /users/id */
 router.get('/:id', function(req, res, next) {
-  console.log("user with id " + req.params.id + " requested");
+  console.log(req.connection.remoteAddress, ":", "user with id " + req.params.id + " requested");
   db.all("SELECT id, name FROM users WHERE id=(?)", req.params.id, function(err, rows) {
-    if (err) console.log(err);
+    if (err) console.log(req.connection.remoteAddress, ":", err);
     res.json(rows);
   });
 });
@@ -50,10 +50,10 @@ router.get('/:id', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   db.run("UPDATE users SET name=(?) WHERE id=(?)",[req.body.name, req.body.id], function(err) {
     if (err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
-      console.log("user with id " + req.body.id + " updated");
+      console.log(req.connection.remoteAddress, ":", "user with id " + req.body.id + " updated");
       res.status(200).end();
     }
   });
@@ -63,10 +63,10 @@ router.put('/:id', function(req, res, next) {
 router.delete('/:id', function(req, res, next) {
   db.run("DELETE from users where id=(?)", req.params.id, function(err) {
     if (err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
-      console.log("user with id " + req.params.id + " deleted");
+      console.log(req.connection.remoteAddress, ":", "user with id " + req.params.id + " deleted");
       res.status(200).end();
     }
   });

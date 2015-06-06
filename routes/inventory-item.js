@@ -8,16 +8,16 @@ var db = require('../database/db.js')
 
 /* GET /product-inventory listing. */
 router.get('/', function(req, res, next) {
-  console.log('item listing requested');
+  console.log(req.connection.remoteAddress, ":", 'items');
   db.all("SELECT id, price, picture, name, stock, brand FROM productInventory", function(err, rows) {
-    if (err) console.log(err);
+    if (err) console.log(req.connection.remoteAddress, ":", err);
     res.json(rows);
   });
 });
 
 /* POST /product-inventory */
 router.post('/', function(req, res, next) {
-  console.log("item received");
+  console.log(req.connection.remoteAddress, ":", "item received");
   db.run("INSERT INTO productInventory (price, picture, name, stock, brand) VALUES (?, ?, ?, ?, ?)", [req.body.price, req.body.picture, req.body.name, req.body.stock, req.body.brand], function(err) {
     if(err) {
       res.status(500).end();
@@ -29,9 +29,9 @@ router.post('/', function(req, res, next) {
 
 /* GET /product-inventory/id */
 router.get('/:id', function(req, res, next) {
-  console.log("item with id " + req.params.id + " requested");
+  console.log(req.connection.remoteAddress, ":", "item with id " + req.params.id + " requested");
   db.all("SELECT id, price, name, picture, stock, brand FROM productInventory WHERE id=(?)", req.params.id, function(err, rows) {
-    if (err) console.log(err);
+    if (err) console.log(req.connection.remoteAddress, ":", err);
     res.json(rows);
   });
 });
@@ -40,11 +40,10 @@ router.get('/:id', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   db.run("UPDATE productInventory SET price=?, picture=?, name=?, stock=?, brand=? WHERE id=?",[req.body.price, req.body.picture, req.body.name, req.body.stock, req.body.brand, req.body.id], function(err) {
     if (err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
-      console.log("item with id " + req.body.id + " updated");
-      console.log(req.body);
+      console.log(req.connection.remoteAddress, ":", "item with id " + req.body.id + " updated");
       res.status(200).end();
     }
   });
@@ -54,10 +53,10 @@ router.put('/:id', function(req, res, next) {
 router.delete('/:id', function(req, res, next) {
   db.run("DELETE from productInventory where id=(?)", req.params.id, function(err) {
     if (err) {
-      console.log(err);
+      console.log(req.connection.remoteAddress, ":", err);
       res.status(500).end();
     } else {
-      console.log("item with id " + req.params.id + " deleted");
+      console.log(req.connection.remoteAddress, ":", "item with id " + req.params.id + " deleted");
       res.status(200).end();
     }
   });
