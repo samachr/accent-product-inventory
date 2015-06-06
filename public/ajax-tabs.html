@@ -2,40 +2,51 @@
 <link rel="import" href="./bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="ajax-tabs-service.html">
 
-<polymer-element name="ajax-tabs" extends="paper-tabs">
+<dom-module id="ajax-tabs">
+  <style>
+  :host {
+    margin: 0;
+    /*height:100%;*/
+  }
+  paper-tab {
+
+  }
+  paper-tabs {
+    background: #404040;
+    color: white;
+    padding: 0;
+  }
+  </style>
   <template>
-    <style>
-    :host {
-      margin: 0;
-      /*height:100%;*/
-    }
-    paper-tab {
-        height:100%;
-    }
-    </style>
-    <ajax-tabs-service id="service" tabs="{{tabs}}" on-ajax-data-received="{{handleServerData}}"></ajax-tabs-service>
-
-    <template repeat="{{tab in tabs}}">
-      <paper-tab name="{{tab.id}}">{{tab.brand}}</paper-tab>
-    </template>
-
-    <shadow>
-    </shadow>
-
+    <ajax-tabs-service id="service" tabs="{{tabs}}" on-ajax-data-received="handleServerData"></ajax-tabs-service>
+    <paper-tabs selected="{{selected}}">
+      <paper-tab name="all">All</paper-tab>
+      <template is="dom-repeat" items="{{tabs}}">
+        <paper-tab name="{{item.id}}">{{item.brand}}</paper-tab>
+      </template>
+    </paper-tabs>
 
   </template>
+</dom-module>
 
-  <script>
-  Polymer({
-    parseDeclaration: function(elementElement) {
-      var template = this.fetchTemplate(elementElement);
-      if (template) {
-        var root = this.lightFromTemplate(template);
-      }
-    },
-    handleServerData: function(event, detail, sender) {
-      // this.$.toast.show();
+<script>
+Polymer({
+  is: "ajax-tabs",
+  properties: {
+    tabs: Array,
+    selected: String
+  },
+  parseDeclaration: function(elementElement) {
+    //console.log(this.selected);
+    var template = this.fetchTemplate(elementElement);
+    if (template) {
+      var root = this.lightFromTemplate(template);
     }
-  });
-  </script>
-</polymer-element>
+  },
+  handleServerData: function(event, detail, sender) {
+    this.tabs = event.detail.tabs;
+    //console.log(event.detail.tabs);
+    // this.$.toast.show();
+  }
+});
+</script>

@@ -5,7 +5,7 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+// var routes = require('./routes/index');
 // var todos = require('./routes/todos');
 var about = require('./routes/about');
 var inventoryItem = require('./routes/inventory-item');
@@ -83,7 +83,7 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+// app.use('/', routes);
 app.use('/about', about);
 // app.use('/todos', todos);
 app.use('/inventory-item', inventoryItem);

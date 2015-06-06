@@ -13,15 +13,16 @@
   ],
   "dependencies": {
     "font-roboto": "Polymer/font-roboto#^0.5",
-    "core-header-panel": "Polymer/core-header-panel#^0.5",
-    "core-toolbar": "Polymer/core-toolbar#~0.5.6",
-    "paper-tabs": "Polymer/paper-tabs#~0.5.6",
-    "core-ajax": "polymer/core-ajax#~0.5.6",
-    "paper-button": "polymer/paper-button#~0.5.6",
-    "polymer": "^0.5",
-    "paper-fab": "polymer/paper-fab#~0.5.6",
-    "paper-toast": "polymer/paper-toast#~0.5.6",
-    "paper-dialog": "polymer/paper-dialog#~0.5.6",
-    "angular": "~1.4.0"
+    "angular": "~1.4.0",
+    "polymer": "~1.0.3",
+    "paper-header-panel": "PolymerElements/paper-header-panel#~1.0.1",
+    "paper-toolbar": "PolymerElements/paper-toolbar#~1.0.1",
+    "paper-tabs": "PolymerElements/paper-tabs#~1.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.1",
+    "paper-button": "PolymerElements/paper-button#~1.0.1",
+    "paper-fab": "PolymerElements/paper-fab#~1.0.1",
+    "paper-toast": "PolymerElements/paper-toast#~1.0.0",
+    "paper-dialog": "PolymerElements/paper-dialog#~1.0.0",
+    "paper-icon-button": "PolymerElements/paper-icon-button#~1.0.0"
   }
 }

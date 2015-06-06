@@ -1,32 +1,36 @@
 <link rel="import" href="./bower_components/polymer/polymer.html">
-<link rel="import" href="./bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="./bower_components/iron-ajax/iron-ajax.html">
 
-<polymer-element name="ajax-tabs-service" attributes="tabs">
+<dom-module id="ajax-tabs-service">
+  <style>
+  :host {
+    display: none;
+  }
+  </style>
   <template>
-
-    <style>
-    :host {
-      display: none;
-    }
-    </style>
-    <core-ajax id="ajax"
+    <iron-ajax id="ajax"
       auto
       url="/brands"
-      on-core-response="{{tabsLoaded}}"
+      on-response="tabsLoaded"
       handleAs="json">
-    </core-ajax>
+    </iron-ajax>
   </template>
-  <script>
-  Polymer('ajax-tabs-service', {
-    created: function() {
-      this.tabs = [];
-    },
-    tabsLoaded: function() {
-      // Make a copy of the loaded data
-      this.tabs = this.$.ajax.response.slice(0);
-      //console.log(this.tabs);
-      this.fire('ajax-data-received');
-    }
-  });
-  </script>
-</polymer-element>
+</dom-module>
+
+<script>
+Polymer({
+  is: "ajax-tabs-service",
+  properties: {
+    tabs: Array,
+  },
+  created: function() {
+    this.tabs = [];
+  },
+  tabsLoaded: function(e) {
+    // Make a copy of the loaded data
+    this.tabs = e.detail.response.slice(0);
+    //console.log(this.tabs);
+    this.fire('ajax-data-received', {tabs: this.tabs});
+  }
+});
+</script>

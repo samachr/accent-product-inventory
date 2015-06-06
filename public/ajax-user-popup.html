@@ -1,16 +1,16 @@
 <link rel="import" href="./bower_components/polymer/polymer.html">
 <link rel="import" href="./bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="./bower_components/paper-dialog/paper-action-dialog.html">
+<link rel="import" href="./bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="ajax-user-popup-service.html">
 
-<polymer-element name="ajax-user-popup" extends="paper-action-dialog">
+<dom-module id="ajax-user-popup" extends="paper-dialog">
+  <style>
+    :host {}
+  </style>
   <template>
-    <style>
-      :host {}
-    </style>
-    <ajax-user-popup-service id="service" users="{{users}}" on-ajax-data-received="{{handleServerData}}"></ajax-user-popup-service>
+    <ajax-user-popup-service id="service" users="{{users}}" on-ajax-data-received="handleServerData"></ajax-user-popup-service>
 
-    <template repeat="{{user in users}}">
+    <template is="dom-repeat" items="{{user in users}}">
       <paper-button raised name="{{user.id}}" affirmative autofocus onclick="setUser({{user.id}})">{{user.name}}</paper-button>
     </template>
 
@@ -19,23 +19,25 @@
 
   </template>
 
-  <script>
-    Polymer({
-      parseDeclaration: function(elementElement) {
-        var template = this.fetchTemplate(elementElement);
-        if (template) {
-          var root = this.lightFromTemplate(template);
-        }
-      },
-      handleServerData: function(event, detail, sender) {
-        // this.$.toast.show();
-        this.async(function() {
-          this.open();
-        });
-      },
-      setUser: function(event, detail, sender) {
-        console.log(sender.name, "was clicked");
+</dom-module>
+
+<script>
+  Polymer({
+    is: "ajax-user-popup",
+    parseDeclaration: function(elementElement) {
+      var template = this.fetchTemplate(elementElement);
+      if (template) {
+        var root = this.lightFromTemplate(template);
       }
-    });
-  </script>
-</polymer-element>
+    },
+    handleServerData: function(event, detail, sender) {
+      // this.$.toast.show();
+      this.async(function() {
+        //this.open();
+      });
+    },
+    setUser: function(event, detail, sender) {
+      console.log(sender.name, "was clicked");
+    }
+  });
+</script>
