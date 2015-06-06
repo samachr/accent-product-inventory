@@ -8,8 +8,8 @@
     "salon",
     "openshift"
   ],
-  "scripts" : {
-    "start" : "node ./bin/www"
+  "scripts": {
+    "start": "node ./bin/www"
   },
   "author": {
     "name": "Samuel Christensen",
@@ -29,7 +29,8 @@
     "express": "~4.9.0",
     "serve-favicon": "~2.1.3",
     "sqlite3": "~3.0.7",
-    "request": "~2.55.0"
+    "request": "~2.55.0",
+    "multer": "~0.1.8"
   },
   "devDependencies": {},
   "bundleDependencies": [],

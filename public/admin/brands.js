@@ -1,6 +1,12 @@
 angular.module('accent-admin').controller('brandsCtrl', function ($scope, $window, $http) {
   $scope.brands = [];
 
+  $scope.tabbrands = (window.location.hash === '#brands');
+  $scope.activateTab = function (tab) {
+    window.location.hash = tab;
+    console.log(tab);
+  };
+  
   $http.get('/brands').
   success(function(data, status, headers, config) {
     // this callback will be called asynchronously

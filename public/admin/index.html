@@ -7,7 +7,7 @@
 <script src="user.js"></script>
 <script src="stock.js"></script>
 <script src="transactions.js"></script>
-<script src="pictures.js"></script>
+<script src="images.js"></script>
 <script src="brands.js"></script>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -25,7 +25,7 @@
     <hr /> -->
 
     <tabset>
-      <tab ng-controller="userCtrl" heading="Users">
+      <tab ng-controller="userCtrl" select="activateTab('users')" active="tabusers" heading="Users" >
         <table class="table">
           <thead>
             <th>User ID</th>
@@ -44,7 +44,8 @@
           </tr>
         </table>
       </tab>
-      <tab ng-controller="brandsCtrl" heading="Brands">
+
+      <tab ng-controller="brandsCtrl" select="activateTab('brands')" active="tabbrands" heading="Brands">
         <table class="table">
           <thead>
             <th>ID</th>
@@ -63,11 +64,12 @@
           </tr>
         </table>
       </tab>
-      <tab ng-controller="stockCtrl" heading="Stock">
+
+      <tab ng-controller="stockCtrl" select="activateTab('stock')" active="tabstock" heading="Stock">
         <table class="table">
           <thead>
             <th>ID</th>
-            <th>Brand ID</th>
+            <th>Brand</th>
             <th>Name</th>
             <th>Picture Number</th>
             <th>Price</th>
@@ -76,18 +78,28 @@
           </thead>
           <tr>
             <td></td>
-            <td><input type="text" class="form-control" ng-model="newInventoryItem.brand"></input></td>
+            <td>
+              {{newInventoryItem.brand}}
+              <select class="form-control" ng-model="newInventoryItem.brand" ng-options="brand.id as brand.brand for brand in brands"></select>
+            </td>
+            <!-- <td><input type="text" class="form-control" ng-model="newInventoryItem.brand"></input></td> -->
             <td><input type="text" class="form-control" ng-model="newInventoryItem.name"></input></td>
-            <td><input type="text" class="form-control" ng-model="newInventoryItem.picture"></input></td>
+            <td>
+              <select class="form-control" ng-model="newInventoryItem.picture" ng-options="image as image for image in images"></select>
+            </td>
             <td><input type="text" class="form-control" ng-model="newInventoryItem.price"></input></td>
             <td><input type="text" class="form-control" ng-model="newInventoryItem.stock"></input></td>
             <td><button class="btn btn-default" ng-click="postItem()">Add New</button></td>
           </tr>
           <tr class="containter" ng-repeat="inventoryItem in inventoryItems">
             <td><span>{{inventoryItem.id}}</span></td>
-            <td><input type="text" class="form-control" ng-model="inventoryItem.brand"></input></td>
+            <td>
+              <select class="form-control" ng-model="inventoryItem.brand" ng-options="brand.id as brand.brand for brand in brands"></select>
+            </td>
             <td><input type="text" class="form-control" ng-model="inventoryItem.name"></input></td>
-            <td><input type="text" class="form-control" ng-model="inventoryItem.picture"></input></td>
+            <td>
+              <select class="form-control" ng-model="inventoryItem.picture" ng-options="image as image for image in images"></select>
+            </td>
             <td><input type="text" class="form-control" ng-model="inventoryItem.price"></input></td>
             <td><input type="text" class="form-control" ng-model="inventoryItem.stock"></input></td>
             <td><button class="btn btn-default" ng-click="putItem(inventoryItem)">Update</button></td>
@@ -95,7 +107,7 @@
         </table>
       </tab>
 
-      <tab ng-controller="transactionsCtrl" heading="Transaction Record">
+      <tab ng-controller="transactionsCtrl" select="activateTab('transaction')" active="tabtransaction" heading="Transaction Record">
         <table class="table">
           <thead>
             <th>Transaction ID</th>
@@ -113,6 +125,29 @@
           </tr>
         </table>
       </tab>
+
+      <tab ng-controller="imagesCtrl" select="activateTab('images')" active="tabimages" heading="Images">
+        <table class="table">
+          <thead>
+            <th>Image ID</th>
+            <th>Image</th>
+          </thead>
+          <tr>
+            <td colspan="2">
+              <form id="uploadForm" enctype="multipart/form-data" action="/images" method="post">
+                <input class="form-control" type="file" name="userPhoto" id="userPhoto"/>
+                <input class="btn btn-default form-control" type="submit" value="Upload Image" name="submit">
+              </form>
+            </td>
+          </tr>
+          <tr class="containter" ng-repeat="image in images">
+            <td><span>{{image}}</span></td>
+            <td><span><img src="/images/{{image}}" width="70" height="70" /></span></td>
+            <!-- <td><button class="btn btn-default" ng-click="updateImage(image)">Update</button></td> -->
+          </tr>
+        </table>
+      </tab>
+
       <!-- <tab ng-controller="picturesCtrl" heading="Pictures">
         <input type="file" id="file" name="file" ng-model="files"/>
         <button ng-click="add()">Add</button>

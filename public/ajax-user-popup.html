@@ -6,9 +6,7 @@
 <polymer-element name="ajax-user-popup" extends="paper-action-dialog">
   <template>
     <style>
-    :host {
-
-    }
+      :host {}
     </style>
     <ajax-user-popup-service id="service" users="{{users}}" on-ajax-data-received="{{handleServerData}}"></ajax-user-popup-service>
 
@@ -22,19 +20,22 @@
   </template>
 
   <script>
-  Polymer({
-    parseDeclaration: function(elementElement) {
-      var template = this.fetchTemplate(elementElement);
-      if (template) {
-        var root = this.lightFromTemplate(template);
+    Polymer({
+      parseDeclaration: function(elementElement) {
+        var template = this.fetchTemplate(elementElement);
+        if (template) {
+          var root = this.lightFromTemplate(template);
+        }
+      },
+      handleServerData: function(event, detail, sender) {
+        // this.$.toast.show();
+        this.async(function() {
+          this.open();
+        });
+      },
+      setUser: function(event, detail, sender) {
+        console.log(sender.name, "was clicked");
       }
-    },
-    handleServerData: function(event, detail, sender) {
-      // this.$.toast.show();
-    },
-    setUser: function(event, detail, sender) {
-      console.log(sender.name, "was clicked");
-    }
-  });
+    });
   </script>
 </polymer-element>

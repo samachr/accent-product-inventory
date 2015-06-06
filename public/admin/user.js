@@ -1,6 +1,18 @@
 angular.module('accent-admin').controller('userCtrl', function ($scope, $window, $http) {
   $scope.users = [];
 
+  if(window.location.hash === "") {
+    window.location.hash = 'users';
+  }
+
+  $scope.tabusers = (window.location.hash === '#users');
+
+
+  $scope.activateTab = function (tab) {
+    window.location.hash = tab;
+    console.log(tab);
+  };
+
   $http.get('/users').
   success(function(data, status, headers, config) {
     // this callback will be called asynchronously

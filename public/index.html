@@ -5560,7 +5560,7 @@ core-icon {
       </post-card> -->
       <template repeat="{{post in posts}}">
         <post-card on-card-tap="{{handleCard}}" hidden?="{{show != post.brand &amp;&amp; show != 'all'}}">
-          <img src="images/{{post.picture}}.jpg" width="70" height="70">
+          <img src="images/{{post.picture}}" width="70" height="70">
           <h2>${{post.price}}</h2>
           <h4>{{post.stock}}</h4>
           <h6>{{post.name}}</h6>
@@ -6808,9 +6808,7 @@ polyfill-next-selector { content: '#tabsContent > *:not(#selectionBar)'; }
 <polymer-element name="ajax-user-popup" extends="paper-action-dialog" assetpath="">
   <template>
     <style>
-    :host {
-
-    }
+      :host {}
     </style>
     <ajax-user-popup-service id="service" users="{{users}}" on-ajax-data-received="{{handleServerData}}"></ajax-user-popup-service>
 
@@ -6824,20 +6822,23 @@ polyfill-next-selector { content: '#tabsContent > *:not(#selectionBar)'; }
   </template>
 
   <script>
-  Polymer('ajax-user-popup',{
-    parseDeclaration: function(elementElement) {
-      var template = this.fetchTemplate(elementElement);
-      if (template) {
-        var root = this.lightFromTemplate(template);
+    Polymer('ajax-user-popup',{
+      parseDeclaration: function(elementElement) {
+        var template = this.fetchTemplate(elementElement);
+        if (template) {
+          var root = this.lightFromTemplate(template);
+        }
+      },
+      handleServerData: function(event, detail, sender) {
+        // this.$.toast.show();
+        this.async(function() {
+          this.open();
+        });
+      },
+      setUser: function(event, detail, sender) {
+        console.log(sender.name, "was clicked");
       }
-    },
-    handleServerData: function(event, detail, sender) {
-      // this.$.toast.show();
-    },
-    setUser: function(event, detail, sender) {
-      console.log(sender.name, "was clicked");
-    }
-  });
+    });
   </script>
 </polymer-element>
 </div>
@@ -6860,7 +6861,7 @@ polyfill-next-selector { content: '#tabsContent > *:not(#selectionBar)'; }
 
   </core-header-panel>
 
-  <ajax-user-popup id="user-choice" opened="" backdrop="" autoclosedisabled="" layered="false">
+  <ajax-user-popup id="user-choice" backdrop="" autoclosedisabled="" layered="false">
     <p style="text-align:center">Choose an employee</p>
   </ajax-user-popup>
 
