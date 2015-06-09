@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+
+<polymer-element name="product-service" attributes="products">
+  <template>
+
+    <style>
+    :host {
+      display: none;
+    }
+    </style>
+    <core-ajax id="ajax"
+      auto
+      url="/inventory-item"
+      on-core-response="{{productsLoaded}}"
+      handleAs="json">
+    </core-ajax>
+    <core-ajax id="ajaxpost"
+      method="post"
+      contentType="application/json"
+      on-core-response="{{update}}"
+      url="/inventory-item">
+    </core-ajax>
+  </template>
+  <script>
+  Polymer('product-service', {
+    created: function() {
+      this.products = [];
+    },
+    productsLoaded: function() {
+      this.products = this.$.ajax.response.slice(0);
+    },
+    update: function() {
+      this.fire('post-response', this.$.ajaxpost.response);
+    },
+    saveTransaction: function(userid, count, price) {
+      var ajax = this.$.ajaxpost;
+      ajax.url="/transactions";
+      ajax.method="post";
+      var newTransaction = {};
+      newTransaction.userid = userid;
+      newTransaction.count = count;
+      newTransaction.price = price;
+      ajax.body = JSON.stringify(newTransaction);
+      ajax.go();
+    },
+    updateInventoryItem: function(product) {
+      var ajax = this.$.ajaxpost;
+      ajax.url="/inventory-item/" + product.id;
+      ajax.method="put";
+      ajax.body = JSON.stringify(product);
+      ajax.go();
+    }
+  });
+  </script>
+</polymer-element>

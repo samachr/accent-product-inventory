@@ -42,13 +42,6 @@ if(example) {
     }
     stmt.finalize();
 
-    // var sql = "SELECT id, barcode, description, image, favorite, category FROM productInventory";
-    //
-    // // Print the initial records as JSON
-    // db.all(sql, function(err, rows) {
-    //   console.log(rows);
-    // });
-
   });
 }
 

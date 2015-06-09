@@ -1,8 +1,8 @@
-<link rel="import" href="./bower_components/polymer/polymer.html">
-<link rel="import" href="./bower_components/core-icon-button/core-icon-button.html">
-<link rel="import" href="./bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
-<polymer-element name="post-card"  extends="paper-button" on-tap="{{cardTapped}}">
+<polymer-element name="product-card" extends="paper-button" on-tap="{{cardTapped}}">
   <template>
     <style>
     :host {
@@ -40,9 +40,6 @@
       top: 0px;
       left: 0px;
     }
-    :host([favorite]) core-icon-button {
-      color: #da4336;
-    }
     </style>
 
     <div class="card-header" horizontal layout>
@@ -59,7 +56,6 @@
     },
     cardTapped: function(event, detail, sender) {
       this.fire('card-tap');
-      //console.log('clicked a card');
     }
   });
   </script>

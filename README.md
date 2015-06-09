@@ -8,8 +8,7 @@ Useful Scripts
     sqlite3 inventory.db .dump > db-backup.bak
   2. Restore database: (delete database first)
     mv inventory.db inventory.db.old && sqlite3 inventory.db < db-backup.bak
-  3. vulcanize: ../node_modules/vulcanize/bin/vulcanize --inline-scripts --inline-css --strip-comments --strip -o index.html index.build.html
-
+  3. vulcanize: npm run vulcanize
 
 (UNTESTED: database stuff may crash the server if anyone is using it at the same time)
 

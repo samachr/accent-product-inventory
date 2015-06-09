@@ -1,0 +1,38 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-action-dialog.html">
+<link rel="import" href="ajax-user-popup-service.html">
+
+<polymer-element name="ajax-user-popup" extends="paper-action-dialog" transition="core-transition-center">
+  <template>
+
+    <ajax-user-popup-service id="service" users="{{users}}" on-ajax-data-received="{{userListIsHere}}"></ajax-user-popup-service>
+
+    <template repeat="{{user in users}}">
+      <paper-button raised name="{{user.id}}" affirmative on-tap="{{setUser}}" onclick="setUser({{user.id}})" >{{user.name}}</paper-button>
+    </template>
+
+    <shadow>
+    </shadow>
+
+  </template>
+
+  <script>
+    Polymer({
+      parseDeclaration: function(elementElement) {
+        var template = this.fetchTemplate(elementElement);
+        if (template) {
+          var root = this.lightFromTemplate(template);
+        }
+      },
+      userListIsHere: function(event, detail, sender) {
+        this.async(function() {
+          this.open();
+        });
+      },
+      setUser: function(event, detail, sender) {
+        this.fire('ajax-user-select', {id: sender.templateInstance.model.user.id});
+      }
+    });
+  </script>
+</polymer-element>

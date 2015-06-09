@@ -9,7 +9,8 @@
     "openshift"
   ],
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "vulcanize" : "node_modules/vulcanize/bin/vulcanize --inline-scripts --inline-css --strip-comments --strip -o public/index.html public/src/index.build.html"
   },
   "author": {
     "name": "Samuel Christensen",
@@ -28,7 +29,9 @@
     "request": "~2.55.0",
     "multer": "~0.1.8"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "vulcanize": "~0.7.11"
+  },
   "bundleDependencies": [],
   "private": true,
   "main": "./bin/www"

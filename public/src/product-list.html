@@ -1,0 +1,117 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-action-dialog.html">
+<link rel="import" href="product-service.html">
+<link rel="import" href="product-card.html">
+
+
+<polymer-element name="product-list" attributes="show userid" >
+  <template>
+    <style>
+    :host {
+      display: inline-block;
+      width: 100%;
+      margin-top: 10px;
+    }
+    product-card {
+      width: 220px;
+      height: 120px;
+      margin: 7px 5px 5px 5px;
+    }
+    paper-action-dialog {
+      width: 552px;
+      height: 250px;
+    }
+    paper-toast {
+      position:fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
+    </style>
+
+    <product-service id="service" products="{{products}}" on-post-response="{{postResponse}}"></product-service>
+    <paper-toast id="toast" duration="2000"></paper-toast>
+
+    <paper-action-dialog id="confirmSale" backdrop autoCloseDisabled transition="core-transition-center">
+      <h3>Current Transaction:</h3>
+      <p id="productInfo"></p>
+      <hr>
+      <p id="totals">$ {{totalPrice}} for {{count}} items <br></p>
+
+      <paper-button raised affirmative style="background:#4285f4;color:white;" on-tap="{{confirmTransaction}}">Confirm Sale</paper-button>
+      <paper-button raised affirmative on-tap="{{addAnotherProduct}}">Add More Product</paper-button>
+      <paper-button raised dismissive on-tap="{{refreshPage}}">Cancel Transaction</paper-button>
+    </paper-action-dialog>
+
+    <template repeat="{{product in products}}">
+      <product-card 
+        on-card-tap="{{handleCard}}"
+        hidden?="{{show != product.brand && show != 'all'}}">
+        <img src="/images/{{product.picture}}" width="70" height="70">
+        <h2>${{product.price}}</h2>
+        <h4>{{product.stock}}</h4>
+        <h6>{{product.name}}</h6>
+      </product-card>
+    </template>
+  </template>
+
+  <script>
+  Polymer({
+    created: function() {
+      this.count = 0;
+      this.totalPrice = 0.0;
+      this.transactionproducts = [];
+      this.neededResponses = 0;
+    },
+    handleCard: function(event, detail, sender) {
+      var product = sender.templateInstance.model.product;
+      if (product.stock == 0) {
+        this.$.toast.text="This item is out of stock.";
+        this.$.toast.show();
+      } else {
+        this.transactionproducts.push(product);
+        product.stock -= 1;
+        this.count += 1;
+        this.totalPrice += product.price;
+        this.$.productInfo.innerHTML += "$" + product.price + " " + product.name + "<br>";
+
+        this.$.confirmSale.async(function() {
+          this.toggle();
+          var confirmSale = this;
+        });
+      }
+    },
+    postResponse: function(event, detail, sender) {
+      this.neededResponses -= 1;
+
+      if(!this.neededResponses) {
+        this.$.toast.text="Transaction Complete";
+        this.$.toast.show();
+
+        setTimeout(function() {
+          window.location.reload();
+        }, 500);
+      }
+    },
+    refreshPage: function(event, detail, sender) {
+      window.location.reload();
+    },
+    addAnotherProduct: function(event, detail, sender) {
+      this.$.toast.text="Choose another product to add";
+      this.$.toast.show();
+    },
+    confirmTransaction: function(event, detail, sender) {
+      for (var i = 0; i < this.transactionproducts.length; i++) {
+        //console.log("updating: ", this.transactionproducts[i]);
+        this.$.service.updateInventoryItem(this.transactionproducts[i]);
+      }
+
+      this.$.service.saveTransaction(this.userid, this.count, this.totalPrice);
+
+      this.neededResponses = this.count + 1;
+    }
+  });
+  </script>
+</polymer-element>
