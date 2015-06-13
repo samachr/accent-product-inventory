@@ -22,6 +22,7 @@ app.use('/inventory-item', require('./routes/inventory-item'));
 app.use('/brands', require('./routes/brands'));
 app.use('/transactions', require('./routes/transactions'));
 app.use('/users', require('./routes/users'));
+app.use('/reports', require('./routes/reports'));
 
 //image file uploads
 var db = require('./database/db.js')

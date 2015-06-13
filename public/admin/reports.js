@@ -1,28 +1,43 @@
-angular.module('accent-admin').controller('userCtrl', function ($scope, $window, $http) {
-  $scope.users = [];
+angular.module('accent-admin').controller('reportsCtrl', function ($scope, $window, $http) {
+  $scope.reports = [];
 
-  $scope.tabusers = (window.location.hash === '#users');
+  if(window.location.hash === "") {
+    window.location.hash = 'reports';
+  }
+  $scope.tabusers = (window.location.hash === '#reports');
 
   $scope.activateTab = function (tab) {
     window.location.hash = tab;
-    console.log(tab);
   };
 
-  $http.get('/users').
+  $http.get('/reports/sales/all').
   success(function(data, status, headers, config) {
-    // this callback will be called asynchronously
-    // when the response is available
-    data.forEach(function(row) {
-      $scope.users.push(row);
+    data.name = "Salon Totals";
+    $scope.reports.push(data);
+  }).
+  error(function(data, status, headers, config) {
+
+  });
+
+  $http.get('/users').
+  success(function(userdata, status, headers, config) {
+    userdata.forEach(function(row) {
+      $http.get('/reports/sales/' + row.id).
+      success(function(data, status, headers, config) {
+        data.moneyOwed = (row.commissionrate * data.totalIncomeFromSales).toFixed(2);
+        if('name' in data) $scope.reports.unshift(data);
+      }).
+      error(function(data, status, headers, config) {
+
+      });
     })
   }).
   error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
+
   });
 
   $scope.putUser = function(user) {
-    $http.put('/users/'+user.id, user).
+    $http.put('/reports/sales/'+user.id, user).
     success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
@@ -36,12 +51,12 @@ angular.module('accent-admin').controller('userCtrl', function ($scope, $window,
   };
 
   $scope.postUser = function() {
-    $http.post('/users', $scope.newUser).
+    $http.post('/reports/sales', $scope.newUser).
     success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
       if (!$scope.newUser.id) {$scope.newUser.id="Available after Page Refresh"};
-      $scope.users.unshift($scope.newUser);
+      $scope.reports.unshift($scope.newUser);
       $scope.newUser = {};
     }).
     error(function(data, status, headers, config) {

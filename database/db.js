@@ -31,9 +31,9 @@ if(example) {
     db.run("INSERT INTO users (name) VALUES (?)", "Marva");
     db.run("INSERT INTO users (id, name) VALUES (?, ?)", [100, "Jill"]);
 
-    db.run("INSERT INTO transactions (userid, count, price) VALUES (?, ?, ?)", [100,2,39.90]);
-    db.run("INSERT INTO transactions (userid, count, price) VALUES (?, ?, ?)", [100,5,5.90]);
-    db.run("INSERT INTO transactions (userid, count, price) VALUES (?, ?, ?)", [100,1,34.90]);
+    db.run("INSERT INTO transactions (userid, count, price) VALUES (?, ?, ?)", [100,3,14]);
+    db.run("INSERT INTO transactions (userid, count, price) VALUES (?, ?, ?)", [100,7,6]);
+    db.run("INSERT INTO transactions (userid, count, price) VALUES (?, ?, ?)", [1,1,35]);
 
     categories = ["shampoo", "nailCare", "fragrance"];
     names = ["kevin murphy shampoo", "scruples hair style volumizer"];

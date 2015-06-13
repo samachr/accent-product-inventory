@@ -1,20 +1,30 @@
 <!doctype html>
 <html ng-app="accent-admin">
 <head>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
-<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
-<script src="app.js"></script>
-<script src="user.js"></script>
-<script src="stock.js"></script>
-<script src="transactions.js"></script>
-<script src="images.js"></script>
-<script src="brands.js"></script>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
   <div>
     <tabset>
+
+      <tab ng-controller="reportsCtrl" select="activateTab('reports')" active="tabtransaction" heading="Reports">
+        <table class="table">
+          <thead>
+            <th>User</th>
+            <th>Products Sold</th>
+            <th>Total Income</th>
+            <th>Money Owed</th>
+          </thead>
+          <tr class="containter" ng-repeat="report in reports">
+            <td><span>{{report.name}}</span></td>
+            <td><span>{{report.totalProductsSold}}</span></td>
+            <td><span>{{report.totalIncomeFromSales}}</span></td>
+            <td><span>{{report.moneyOwed}}</span></td>
+          </tr>
+        </table>
+      </tab>
+
       <tab ng-controller="userCtrl" select="activateTab('users')" active="tabusers" heading="Users" >
         <table class="table">
           <thead>
@@ -141,5 +151,15 @@
       </tab>
     </tabset>
   </div>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
+  <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+  
+  <script src="app.js"></script>
+  <script src="user.js"></script>
+  <script src="stock.js"></script>
+  <script src="transactions.js"></script>
+  <script src="images.js"></script>
+  <script src="brands.js"></script>
+  <script src="reports.js"></script>
 </body>
 </html>
