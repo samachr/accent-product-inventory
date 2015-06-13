@@ -20,16 +20,19 @@
           <thead>
             <th>User ID</th>
             <th>Name</th>
+            <th>Commission Rate</th>
             <th></th>
           </thead>
           <tr>
             <td><input type="text" class="form-control" ng-model="newUser.id"></input></td>
             <td><input type="text" class="form-control" ng-model="newUser.name"></input></td>
+            <td><input type="text" class="form-control" ng-model="newUser.commissionrate"></input></td>
             <td><button class="btn btn-default" ng-click="postUser()">Add New</button></td>
           </tr>
           <tr class="containter" ng-repeat="user in users">
             <td><span>{{user.id}}</span></td>
             <td><input type="text" class="form-control" ng-model="user.name"></input></td>
+            <td><input type="text" class="form-control" ng-model="user.commissionrate"></input></td>
             <td><button class="btn btn-default" ng-click="putUser(user)">Update</button></td>
           </tr>
         </table>

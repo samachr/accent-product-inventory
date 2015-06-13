@@ -2,13 +2,14 @@ var sqlite3 = require('sqlite3').verbose();
 var dbdir = process.env.OPENSHIFT_DATA_DIR || 'database/';
 // var db = new sqlite3.Database(dbdir + 'inventory.db');
 var db = new sqlite3.Database(':memory:');
- var example = true;
+var example = true;
 
 db.run("CREATE TABLE IF NOT EXISTS productInventory (id INTEGER PRIMARY KEY, price REAL, picture TEXT, name TEXT, stock INT, brand text)");
 db.run("CREATE TABLE IF NOT EXISTS brands (id INTEGER PRIMARY KEY, brand TEXT)");
-db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)");
+db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, commissionrate REAL)");
 db.run("CREATE TABLE IF NOT EXISTS transactions (id INTEGER PRIMARY KEY, userid INT, count INT, price REAL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
 db.run("CREATE TABLE IF NOT EXISTS images (filename TEXT)");
+
 
 if(example) {
   db.serialize(function() {

@@ -7,7 +7,6 @@ angular.module('accent-admin').controller('userCtrl', function ($scope, $window,
 
   $scope.tabusers = (window.location.hash === '#users');
 
-
   $scope.activateTab = function (tab) {
     window.location.hash = tab;
     console.log(tab);
