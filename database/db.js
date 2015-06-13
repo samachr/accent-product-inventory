@@ -5,7 +5,7 @@ var db = new sqlite3.Database(':memory:');
 var example = true;
 
 db.run("CREATE TABLE IF NOT EXISTS productInventory (id INTEGER PRIMARY KEY, price REAL, picture TEXT, name TEXT, stock INT, brand text)");
-db.run("CREATE TABLE IF NOT EXISTS brands (id INTEGER PRIMARY KEY, brand TEXT)");
+db.run("CREATE TABLE IF NOT EXISTS brands (id INTEGER PRIMARY KEY, brand INT)");
 db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, commissionrate REAL)");
 db.run("CREATE TABLE IF NOT EXISTS transactions (id INTEGER PRIMARY KEY, userid INT, count INT, price REAL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
 db.run("CREATE TABLE IF NOT EXISTS images (filename TEXT)");
@@ -27,9 +27,9 @@ if(example) {
     db.run("INSERT INTO images (filename) VALUES (?)", "7.jpg");
     db.run("INSERT INTO images (filename) VALUES (?)", "8.jpg");
 
-    db.run("INSERT INTO users (name) VALUES (?)", "Cindy");
-    db.run("INSERT INTO users (name) VALUES (?)", "Marva");
-    db.run("INSERT INTO users (id, name) VALUES (?, ?)", [100, "Jill"]);
+    db.run("INSERT INTO users (name, commissionrate) VALUES (?, ?)", "Cindy", 0.10);
+    db.run("INSERT INTO users (name, commissionrate) VALUES (?, ?)", "Marva", 0.12);
+    db.run("INSERT INTO users (id, name, commissionrate) VALUES (?, ?, ?)", [100, "Jill", 0.5]);
 
     db.run("INSERT INTO transactions (userid, count, price) VALUES (?, ?, ?)", [100,3,14]);
     db.run("INSERT INTO transactions (userid, count, price) VALUES (?, ?, ?)", [100,7,6]);

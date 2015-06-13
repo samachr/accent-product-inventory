@@ -9,46 +9,25 @@ angular.module('accent-admin').controller('stockCtrl', function ($scope, $window
     console.log(tab);
   };
 
-
-  $http.get('/brands').
-  success(function(data, status, headers, config) {
-    // this callback will be called asynchronously
-    // when the response is available
-    data.forEach(function(row) {
-      $scope.brands.push(row);
-    })
-  }).
-  error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-  });
-
   $http.get('/inventory-item').
-  success(function(data, status, headers, config) {
-    // this callback will be called asynchronously
-    // when the response is available
-    data.forEach(function(row) {
-      $scope.inventoryItems.push(row);
-    })
-  }).
-  error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
+  success(function(products, status, headers, config) {
+      $http.get('/brands').
+      success(function(data, status, headers, config) {
+        data.forEach(function(row) {
+          row.id = row.id.toString();
+          $scope.brands.push(row);
+        })
+          $http.get('/images').
+          success(function(data, status, headers, config) {
+            data.forEach(function(row) {
+              $scope.images.push(row.filename);
+            })
+            products.forEach(function(row) {
+              $scope.inventoryItems.push(row);
+            })
+          });
+      });
   });
-
-  $http.get('/images').
-  success(function(data, status, headers, config) {
-    // this callback will be called asynchronously
-    // when the response is available
-    data.forEach(function(row) {
-      $scope.images.push(row.filename);
-    })
-  }).
-  error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-  });
-
 
   $scope.putItem = function(inventoryItem) {
     $http.put('/inventory-item/'+inventoryItem.id, inventoryItem).
