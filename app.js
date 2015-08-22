@@ -24,6 +24,26 @@ app.use('/transactions', require('./routes/transactions'));
 app.use('/users', require('./routes/users'));
 app.use('/reports', require('./routes/reports'));
 
+var sys = require('sys')
+var exec = require('child_process').exec;
+
+app.get('/backup', function(req, res){
+  var timestamp = new Date().toISOString();
+
+  var dbdir = process.env.OPENSHIFT_DATA_DIR || 'database';
+  var zipcommand = "zip -rj " + timestamp + ".zip " + __dirname + "/public/images " + dbdir + "/inventory.db";
+  // zip -r ./$(date +'\%Y\%m\%d').zip public/images database/inventory.db
+  var child = exec(zipcommand, function (error, stdout, stderr) {
+    if (error !== null) {
+      console.log('exec error: ' + error);
+      res.send(stderr);
+    } else {
+      res.download(timestamp + ".zip"); // Set disposition and send it.
+      setTimeout(function(){exec("rm " + timestamp + ".zip")}, 30000); // delete temporary backup in 30 seconds
+    }
+  });
+});
+
 //image file uploads
 var db = require('./database/db.js')
 
