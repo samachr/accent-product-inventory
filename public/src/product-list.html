@@ -46,9 +46,9 @@
     </paper-action-dialog>
 
     <template repeat="{{product in products}}">
-      <product-card 
+      <product-card
         on-card-tap="{{handleCard}}"
-        hidden?="{{show != product.brand && show != 'all'}}">
+        hidden?="{{show != product.brand}}">
         <img src="/images/{{product.picture}}" width="70" height="70">
         <h2>${{product.price}}</h2>
         <h4>{{product.stock}}</h4>
