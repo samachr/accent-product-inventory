@@ -1,0 +1,1 @@
+cp -n $OPENSHIFT_HOMEDIR/app-deployments/$date_$time/repo/public/images/* app-root/data/images/
