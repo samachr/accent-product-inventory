@@ -1,2 +1,2 @@
 #!/bin/bash
-cp $OPENSHIFT_REPO_DIR/public/images/* $OPENSHIFT_DATA_DIR/images/
+cp -R $OPENSHIFT_REPO_DIR/public/images $OPENSHIFT_DATA_DIR/images
