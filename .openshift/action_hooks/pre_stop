@@ -1,0 +1,1 @@
+cp -n app-root/repo/public/images/* app-root/data/images/
