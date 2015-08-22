@@ -1,2 +1,3 @@
 #!/bin/bash
+
 cp -R $OPENSHIFT_DATA_DIR/images $OPENSHIFT_REPO_DIR/public/images
