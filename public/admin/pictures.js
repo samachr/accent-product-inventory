@@ -1,5 +1,6 @@
 angular.module('accent-admin').controller('picturesCtrl', function ($scope, $window, $http) {
   $scope.pictures = [];
+  $scope.loaded = false;
 
   // $http.get('/pictures').
   // success(function(data, status, headers, config) {

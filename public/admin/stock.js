@@ -2,32 +2,40 @@ angular.module('accent-admin').controller('stockCtrl', function ($scope, $window
   $scope.inventoryItems = [];
   $scope.images = [];
   $scope.brands = [];
+  $scope.loaded = false;
 
   $scope.tabstock = (window.location.hash === '#stock');
+
   $scope.activateTab = function (tab) {
     window.location.hash = tab;
-    console.log(tab);
+
+    if(!$scope.loaded) {
+      $scope.load();
+    }
   };
 
-  $http.get('/inventory-item').
-  success(function(products, status, headers, config) {
-      $http.get('/brands').
-      success(function(data, status, headers, config) {
-        data.forEach(function(row) {
-          row.id = row.id.toString();
-          $scope.brands.push(row);
-        })
-          $http.get('/images').
-          success(function(data, status, headers, config) {
-            data.forEach(function(row) {
-              $scope.images.push(row.filename);
-            })
-            products.forEach(function(row) {
-              $scope.inventoryItems.push(row);
-            })
-          });
-      });
-  });
+  $scope.load = function() {
+    $http.get('/inventory-item').
+    success(function(products, status, headers, config) {
+        $http.get('/brands').
+        success(function(data, status, headers, config) {
+          data.forEach(function(row) {
+            row.id = row.id.toString();
+            $scope.brands.push(row);
+          })
+            $http.get('/images').
+            success(function(data, status, headers, config) {
+              data.forEach(function(row) {
+                $scope.images.push(row.filename);
+              })
+              products.forEach(function(row) {
+                $scope.inventoryItems.push(row);
+              })
+            });
+        });
+    });
+    $scope.loaded = true;
+  };
 
   $scope.putItem = function(inventoryItem) {
     $http.put('/inventory-item/'+inventoryItem.id, inventoryItem).

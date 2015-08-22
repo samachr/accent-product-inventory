@@ -1,25 +1,32 @@
 angular.module('accent-admin').controller('userCtrl', function ($scope, $window, $http) {
   $scope.users = [];
+  $scope.loaded = false;
 
   $scope.tabusers = (window.location.hash === '#users');
 
   $scope.activateTab = function (tab) {
     window.location.hash = tab;
-    console.log(tab);
+
+    if(!$scope.loaded) {
+      $scope.load();
+    }
   };
 
-  $http.get('/users').
-  success(function(data, status, headers, config) {
-    // this callback will be called asynchronously
-    // when the response is available
-    data.forEach(function(row) {
-      $scope.users.push(row);
-    })
-  }).
-  error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-  });
+  $scope.load = function() {
+    $http.get('/users').
+    success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+      data.forEach(function(row) {
+        $scope.users.push(row);
+      })
+    }).
+    error(function(data, status, headers, config) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    });
+    $scope.loaded = true;
+  };
 
   $scope.putUser = function(user) {
     $http.put('/users/'+user.id, user).
