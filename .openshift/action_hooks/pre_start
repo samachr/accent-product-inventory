@@ -1,2 +1,3 @@
 #!/bin/bash
+mogrify -strip -resize 60x60 $OPENSHIFT_DATA_DIR/images/*.png $OPENSHIFT_DATA_DIR/images/*.jpg $OPENSHIFT_DATA_DIR/images/*.gif
 cp -n $OPENSHIFT_DATA_DIR/images/* $OPENSHIFT_REPO_DIR/public/images/

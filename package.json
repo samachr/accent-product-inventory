@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "start": "node ./bin/www",
-    "vulcanize" : "node_modules/vulcanize/bin/vulcanize --inline-scripts --inline-css --strip-comments --strip -o public/index.html public/src/index.build.html"
+    "vulcanize": "node_modules/vulcanize/bin/vulcanize --inline-scripts --inline-css --strip-comments --strip -o public/index.html public/src/index.build.html"
   },
   "author": {
     "name": "Samuel Christensen",
@@ -25,9 +25,9 @@
   "dependencies": {
     "body-parser": "~1.8.1",
     "express": "~4.9.0",
-    "sqlite3": "~3.0.7",
+    "multer": "~0.1.8",
     "request": "~2.55.0",
-    "multer": "~0.1.8"
+    "sqlite3": "~3.0.7"
   },
   "devDependencies": {
     "vulcanize": "~0.7.11"

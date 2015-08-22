@@ -61,6 +61,7 @@ app.use(multer({
     console.log(file.fieldname + ' uploaded to  ' + file.path);
     db.run("INSERT INTO images (filename) VALUES (?)", file.name);
     done = true;
+    exec("mogrify -strip -resize 60x60 " + "public/images/" + file.name);
   }
 }));
 
