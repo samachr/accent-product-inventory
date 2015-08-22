@@ -1,4 +1,4 @@
 node_modules
 public/images/*
-!public/images/00noimage.jpg
+!public/images/{{image}}.jpg
 database/inventory.db
