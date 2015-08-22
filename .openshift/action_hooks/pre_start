@@ -1,4 +1,3 @@
 #!/bin/bash
-mogrify -background white -strip -resize 70x70 -gravity center -extent 70x70 -unsharp 0x1 $OPENSHIFT_DATA_DIR/images/*.jpg $OPENSHIFT_DATA_DIR/images/*.png $OPENSHIFT_DATA_DIR/images/*.JPG $OPENSHIFT_DATA_DIR/images/*.PNG
 cp -n $OPENSHIFT_DATA_DIR/images/* $OPENSHIFT_REPO_DIR/public/images/
-echo "old images restored and updated"
+echo "old images restored"
