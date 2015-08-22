@@ -142,12 +142,12 @@
         </tr>
         <tr class="containter" ng-repeat="image in images track by $index">
           <td><span>{{image}}</span></td>
-          <td><span><img src="/images/{{image}}" width="70" height="70" /></span></td>
+          <td><span><img src="/images/{{image}}" height="70" /></span></td>
         </tr>
       </table>
     </tab>
 
-    <tab select="activateTab('images')" active="tabBackup" heading="Backup">
+    <tab select="activateTab('Backup')" active="tabBackup" heading="Backup">
       <a class="btn btn-primary" href="/backup">Download Backup</a>
     </tab>
   </tabset>
